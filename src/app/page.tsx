@@ -62,7 +62,7 @@ export default function Home() {
 
   return (
     <main
-      className=" min-h-screen flex flex-col items-center justify-center p-12 text-black
+      className="min-h-screen flex flex-col items-center justify-center p-12 text-black
     bg-[url('/background.jpg')] bg-cover bg-center " // 背景圖片設置
     >
       <h1 className='text-4xl font-bold text-white mb-6'>
@@ -165,7 +165,7 @@ export default function Home() {
       <div className='bg-white p-8 rounded-lg shadow-lg max-w-xl w-full'>
         <header className='text-center'>
           <h1 className='text-3xl font-bold text-gray-800'>Kouji</h1>
-          <p className='text-l text-gray-600'>Front-End Developer starter</p>
+          <p className='text-lg text-gray-600'>Front-End Developer starter</p>
         </header>
 
         <section className='mt-8'>
@@ -175,7 +175,7 @@ export default function Home() {
               <span className='font-semibold'>Email:</span> example@example.com
             </li>
             <li>
-              <span className='font-semibold '>Location:</span> Taipei
+              <span className='font-semibold'>Location:</span> Taipei
             </li>
           </ul>
         </section>
