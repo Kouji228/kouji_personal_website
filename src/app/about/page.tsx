@@ -11,7 +11,7 @@ const About = () => {
         <section className='mt-8'>
           <h2 className='text-2xl font-semibold text-gray-800'>簡介</h2>
           <p className='mt-4 text-gray-600'>
-            你好，我是Kouji
+            我是Kouji
             <br />
             前端技術精進中，以Next.js為主，以精通React為學習目標
             <br />
