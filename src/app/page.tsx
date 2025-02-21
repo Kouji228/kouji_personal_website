@@ -62,8 +62,9 @@ export default function Home() {
 
   return (
     <main
-      className="min-h-screen flex flex-col items-center justify-center p-12 text-black
-    bg-[url('/background.jpg')] bg-cover bg-center " // 背景圖片設置
+      className='min-h-screen flex flex-col items-center justify-center p-12 text-black
+             bg-cover bg-center bg-no-repeat'
+      style={{ backgroundImage: "url('/background.jpg')" }}
     >
       <h1 className='text-4xl font-bold text-white mb-6'>
         Welcome to the Home Page
