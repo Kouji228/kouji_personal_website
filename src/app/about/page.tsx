@@ -16,7 +16,7 @@ const About = () => {
         <section className='mt-8'>
           <h2 className='text-2xl'>簡介</h2>
           <p className='mt-4'>
-            Hi, I'm Kouji Song.
+            Hi, I&apos;m Kouji Song.
             <br />
             前端技術精進中，以 Next.js 為主，以精通 React 為學習目標。
             <br />

@@ -1,0 +1,3 @@
+{
+  "buildCommand": "pnpm install --dev && pnpm run build"
+}
