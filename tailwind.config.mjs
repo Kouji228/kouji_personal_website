@@ -1,6 +1,4 @@
-import type { Config } from 'tailwindcss';
-
-const config: Config = {
+const config = {
   content: [
     './src/**/*.{js,ts,jsx,tsx,mdx}', // ✅ 確保 Tailwind 掃描所有 `src/` 內的檔案
     './app/**/*.{js,ts,jsx,tsx,mdx}',
