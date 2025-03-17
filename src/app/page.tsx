@@ -1,7 +1,7 @@
 'use client'; // 🔥 確保這個組件只在客戶端運行
 
 import React from 'react';
-import Head from 'next/head'; // ✅ Helmet 替換為 Next.js Head
+import Head from 'next/head'; //
 import dynamic from 'next/dynamic';
 import { introdata, meta } from '../content_option';
 import Link from 'next/link'; // ✅ react-router-dom 替換為 next/link
