@@ -1,0 +1,174 @@
+/* 標籤導航容器 */
+.tabNavigation {
+  position: fixed; /* 固定定位 */
+  top: 50%; /* 垂直位置：頁面中央 */
+  left: 50px; /* 水平位置：距離左邊 50px */
+  transform: translateY(-50%); /* 垂直置中 */
+  z-index: 100; /* 層級 */
+  display: flex; /* 使用 Flexbox 布局 */
+  flex-direction: column;
+  gap: 0;
+}
+
+.tabList {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+/* 標籤項目 */
+.tabItem {
+  position: relative;
+  display: flex;
+  align-items: center;
+  padding: 12px 0;
+  text-decoration: none;
+  color: var(--text-color);
+  font-family: 'Marcellus', serif;
+  font-size: 14px;
+  font-weight: 500;
+  letter-spacing: 1px;
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+/* 防止點擊後變色 */
+.tabItem:visited {
+  color: var(--text-color);
+}
+
+.tabItem:visited .tabLabel {
+  color: var(--text-color);
+}
+
+.tabLabel {
+  position: relative;
+  z-index: 2;
+  transition: color 0.3s ease;
+}
+
+/* 活動標籤樣式 */
+.tabItem.active .tabLabel {
+  color: var(--text-color-2);
+  font-weight: 600;
+}
+
+/* 活動標籤的 visited 狀態 */
+.tabItem.active:visited .tabLabel {
+  color: var(--text-color-2);
+}
+
+/* 懸停效果 */
+.tabItem:hover .tabLabel {
+  color: var(--text-color-3);
+}
+
+/* 標籤指示器 - 類似 Brittany Chiang 網站的橫線 */
+.tabIndicator {
+  position: absolute;
+  left: -20px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 16px;
+  height: 2px;
+  background-color: var(--text-color-2);
+  transition: all 0.3s ease;
+  z-index: 1;
+}
+
+/* 非活動標籤的指示器（淺色橫線） */
+.tabItem:not(.active)::before {
+  content: '';
+  position: absolute;
+  left: -20px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 16px;
+  height: 1px;
+  background-color: var(--text-color);
+  opacity: 0.3;
+  transition: all 0.3s ease;
+}
+
+.tabItem:not(.active):hover::before {
+  opacity: 0.6;
+}
+
+/* 社群連結 */
+.socialLinks {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: 20px;
+  padding-top: 20px;
+  border-top: 1px solid var(--text-color);
+  opacity: 0.3;
+}
+
+.socialLink {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  color: var(--text-color);
+  text-decoration: none;
+  transition: all 0.3s ease;
+  font-size: 18px;
+}
+
+.socialLink:hover {
+  color: var(--text-color-3);
+  opacity: 1;
+  transform: scale(1.1);
+}
+
+/* 響應式設計 */
+@media (max-width: 768px) {
+  .tabNavigation {
+    left: 15px;
+  }
+
+  .tabItem {
+    font-size: 12px;
+    padding: 10px 0;
+  }
+
+  .tabIndicator {
+    left: -15px;
+    width: 12px;
+  }
+
+  .tabItem:not(.active)::before {
+    left: -15px;
+    width: 12px;
+  }
+}
+
+@media (max-width: 480px) {
+  .tabNavigation {
+    left: 10px;
+  }
+
+  .tabItem {
+    font-size: 11px;
+    padding: 8px 0;
+  }
+
+  .tabIndicator {
+    left: -10px;
+    width: 10px;
+  }
+
+  .tabItem:not(.active)::before {
+    left: -10px;
+    width: 10px;
+  }
+}
+
+/* 確保標籤導航不會與現有導航衝突 */
+@media (max-width: 1500px) {
+  .tabNavigation {
+    display: none; /* 在屏幕寬度小於1200px時隱藏，使用現有的移動導航 */
+  }
+}
