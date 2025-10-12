@@ -1,36 +1,114 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Kouji Personal Website
 
-## Getting Started
+> A personal portfolio website built with Next.js, showcasing my projects, skills, and professional journey as a front-end developer.
 
-First, run the development server:
+## 🌐 Live Demo
+
+<!-- Add your deployed site URL here -->
+
+Coming Soon...
+
+## 📋 About This Project
+
+This is my personal website built to showcase my front-end development skills and professional experience. The website features:
+
+- 🏠 **Home Page** - Dynamic introduction with typewriter effect
+- 👤 **About Page** - Professional background, work experience, and technical skills
+- 💼 **Projects Page** - Portfolio of selected projects
+- 📧 **Contact Page** - Get in touch with me
+
+## 🛠️ Tech Stack
+
+- **Framework**: Next.js 15.2
+- **Language**: TypeScript
+- **Styling**: Tailwind CSS 4.0, Bootstrap 5.3, CSS Modules
+- **Animations**: Framer Motion
+- **State Management**: Redux Toolkit
+- **Package Manager**: pnpm
+
+## 🚀 Getting Started
+
+### Prerequisites
+
+- Node.js 18+
+- pnpm (recommended) or npm
+
+### Installation
+
+1. Clone the repository
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+git clone https://github.com/Kouji228/kouji_personal_website.git
+cd kouji_personal_website
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+2. Install dependencies
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```bash
+pnpm install
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+3. Run the development server
 
-## Learn More
+```bash
+pnpm dev
+```
 
-To learn more about Next.js, take a look at the following resources:
+4. Open [http://localhost:3000](http://localhost:3000) in your browser
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+### Build for Production
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+```bash
+pnpm build
+pnpm start
+```
 
-## Deploy on Vercel
+## 📝 Customization
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+To customize the content, edit the `src/content_option.tsx` file. This central configuration file contains:
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- Personal information
+- Work experience timeline
+- Skills and proficiency levels
+- Project portfolio
+- Contact information
+- Social media links
+
+## 🎨 Design Inspiration
+
+The initial concept and structure of this portfolio were inspired by [ubaimutl/react-portfolio](https://github.com/ubaimutl/react-portfolio), an excellent React portfolio template. This project has been significantly modified and rebuilt using Next.js with additional features and customizations to suit my personal needs.
+
+### Key Differences from Original Template:
+
+- ✨ Migrated from React to **Next.js 15** with App Router
+- 🎨 Integrated **Tailwind CSS** alongside Bootstrap
+- 📱 Enhanced responsive design and animations
+- 🔧 Added TypeScript for type safety
+- 🆕 Custom features: project showcase, work timeline, enhanced About page
+
+## 📄 License & Attribution
+
+This project is open source and available under the MIT License.
+
+**Original Template Credit:**
+
+- [react-portfolio](https://github.com/ubaimutl/react-portfolio) by [ubaimutl](https://github.com/ubaimutl)
+- Licensed under MIT License
+
+## 👨‍💻 Author
+
+**Kouji Song** (宋平浩)
+
+- GitHub: [@Kouji228](https://github.com/Kouji228)
+- Email: song24707@gmail.com
+- Location: New Taipei City, Taiwan
+
+## 🙏 Acknowledgments
+
+- Thanks to [ubaimutl](https://github.com/ubaimutl) for the original portfolio template inspiration
+- Built with [Next.js](https://nextjs.org/)
+- Deployed on [Vercel](https://vercel.com/)
+
+---
+
+⭐ If you found this helpful, please consider giving it a star!
