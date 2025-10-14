@@ -1,73 +1,62 @@
-'use client'; // 🔥 確保這個組件只在客戶端運行
+'use client';
 
-import React, { useEffect, useRef } from 'react';
-import Head from 'next/head'; //
-import dynamic from 'next/dynamic';
-import { gsap } from 'gsap';
-import { introdata, meta, socialprofils } from '../content_option';
-import Link from 'next/link'; // ✅ react-router-dom 替換為 next/link
-import { FaGithub, FaLinkedin } from 'react-icons/fa';
-import ImageGallery from '../components/imagegallery';
-import styles from './page.module.css';
+import React, { useEffect, useState } from 'react';
+import Head from 'next/head';
+import { gsap, GsapNav, GsapBottomTab } from '../components/gsap';
+import { meta } from '../content_option';
+import StructuredData from '../components/StructuredData';
+import LoadingScreen from '../components/LoadingScreen';
+import Home from '../sections/Home';
+import About from '../sections/About';
+import Projects from '../sections/Projects';
+import Contact from '../sections/Contact';
 
-// ✅ 動態載入 Typewriter，禁用 SSR
-const Typewriter = dynamic(() => import('typewriter-effect'), { ssr: false });
-
-export default function Home() {
-  // ✅ GSAP: 使用 useRef 來獲取 DOM 元素
-  const titleRef = useRef(null);
-  const typewriterRef = useRef(null);
-  const descRef = useRef(null);
-  const buttonsRef = useRef(null);
-  const socialRef = useRef(null);
-  const galleryContainerRef = useRef(null);
-
-  const animatedTexts = [
-    introdata.animated.first,
-    introdata.animated.second,
-    introdata.animated.third,
-    introdata.animated.forth ?? '', // 避免 undefined
-  ];
+export default function SinglePageApp() {
+  const [isClient, setIsClient] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    // ✅ GSAP 動畫：頁面載入時的進場動畫
-    const tl = gsap.timeline({ defaults: { ease: 'power3.out' } });
+    setIsClient(true);
+  }, []);
 
-    tl.fromTo(
-      galleryContainerRef.current,
-      { opacity: 0, scale: 0.95 },
-      { opacity: 1, scale: 1, duration: 1 },
-    )
-      .fromTo(
-        titleRef.current,
-        { opacity: 0, y: -50 },
-        { opacity: 1, y: 0, duration: 0.8 },
-        '-=0.6',
-      )
-      .fromTo(
-        typewriterRef.current,
-        { opacity: 0, x: -50 },
-        { opacity: 1, x: 0, duration: 0.8 },
-        '-=0.4',
-      )
-      .fromTo(
-        descRef.current,
-        { opacity: 0, x: -50 },
-        { opacity: 1, x: 0, duration: 0.8 },
-        '-=0.4',
-      )
-      .fromTo(
-        buttonsRef.current,
-        { opacity: 0, y: 30 },
-        { opacity: 1, y: 0, duration: 0.8, ease: 'back.out(1.4)' },
-        '-=0.4',
-      )
-      .fromTo(
-        socialRef.current,
-        { opacity: 0, scale: 0.5 },
-        { opacity: 1, scale: 1, duration: 0.6, stagger: 0.1 },
-        '-=0.3',
-      );
+  const handleLoadingComplete = () => {
+    setIsLoading(false);
+  };
+
+  useEffect(() => {
+    // 頁面初次載入時檢查 location.hash 並自動滾動
+    const handleInitialHash = () => {
+      if (typeof window === 'undefined') return;
+
+      const hash = window.location.hash;
+      if (hash) {
+        const targetId = hash.replace('#', '');
+        const targetElement = document.getElementById(targetId);
+
+        if (targetElement) {
+          // 等待 DOM 完全載入後再執行滾動
+          setTimeout(() => {
+            gsap.to(window, {
+              duration: 1.2,
+              scrollTo: {
+                y: targetElement,
+                offsetY: 72, // 使用 --nav-h 變數值
+              },
+              ease: 'power2.inOut',
+            });
+          }, 100);
+        }
+      }
+    };
+
+    // 立即執行一次（如果 DOM 已準備好）
+    handleInitialHash();
+
+    // 如果 DOM 還沒準備好，等待 load 事件
+    if (document.readyState === 'loading') {
+      window.addEventListener('load', handleInitialHash);
+      return () => window.removeEventListener('load', handleInitialHash);
+    }
   }, []);
 
   return (
@@ -78,89 +67,63 @@ export default function Home() {
         <meta name='description' content={meta.description} />
       </Head>
 
-      <section id='home' className='home'>
-        <div
-          className={`${styles.introSec} d-block d-lg-flex align-items-center`}
-        >
-          <div
-            ref={galleryContainerRef}
-            className={`${styles.hBgImage} order-1 order-lg-2 h-100`}
-          >
-            <ImageGallery items={introdata.gallery} />
-          </div>
+      {/* 載入畫面 */}
+      {isLoading && <LoadingScreen onLoadingComplete={handleLoadingComplete} />}
 
-          <div
-            className={`${styles.text} order-2 order-lg-1 h-100 d-lg-flex justify-content-center`}
-          >
-            <div className='align-self-center'>
-              <div className={`${styles.intro} mx-auto`}>
-                <h2 ref={titleRef} className='mb-1x'>
-                  {introdata.title}
-                </h2>
-                <h1 ref={typewriterRef} className='fluidz-48 mb-1x'>
-                  <Typewriter
-                    options={{
-                      strings: animatedTexts,
-                      autoStart: true,
-                      loop: true,
-                      deleteSpeed: 10,
-                    }}
-                  />
-                </h1>
-                <p ref={descRef} className='mb-1x'>
-                  {introdata.description}
-                </p>
+      {/* 結構化數據 - 提供給搜尋引擎 */}
+      {isClient && (
+        <>
+          <StructuredData type='Person' data={{}} />
+          <StructuredData type='WebSite' data={{}} />
+          <StructuredData
+            type='WebPage'
+            data={{
+              title: meta.title,
+              description: meta.description,
+              url: process.env.NEXT_PUBLIC_SITE_URL || 'https://kouji-song.dev',
+            }}
+          />
+        </>
+      )}
 
-                <div className='intro_btn-action pb-5'>
-                  <div ref={buttonsRef} className={styles.buttonContainer}>
-                    <div className={styles.buttonsRow}>
-                      <Link href='/about'>
-                        <div id='buttonP' className={`${styles.acBtn} btn`}>
-                          About Me
-                          <div className={styles.ringOne}></div>
-                          <div className={styles.ringTwo}></div>
-                          <div className={styles.ringThree}></div>
-                        </div>
-                      </Link>
+      {/* 桌面導航 */}
+      <GsapNav />
 
-                      <Link href='/contact'>
-                        <div id='buttonH' className={`${styles.acBtn} btn`}>
-                          Contact Me
-                          <div className={styles.ringOne}></div>
-                          <div className={styles.ringTwo}></div>
-                          <div className={styles.ringThree}></div>
-                        </div>
-                      </Link>
-                    </div>
+      {/* 手機底部導航 */}
+      <GsapBottomTab />
 
-                    {/* 社群圖標 */}
-                    <div ref={socialRef} className={styles.homeSocialLinks}>
-                      <a
-                        href={socialprofils.github}
-                        target='_blank'
-                        rel='noopener noreferrer'
-                        className={styles.homeSocialLink}
-                        title='GitHub'
-                      >
-                        <FaGithub />
-                      </a>
-                      <a
-                        href={socialprofils.linkedin}
-                        target='_blank'
-                        rel='noopener noreferrer'
-                        className={styles.homeSocialLink}
-                        title='LinkedIn'
-                      >
-                        <FaLinkedin />
-                      </a>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
+      {/* 主要內容區域 */}
+      <main>
+        {/* 首屏語義化內容 - 確保深連結可索引 */}
+        <div className='sr-only' aria-hidden='true'>
+          <h1>Kouji Song - Front-End Developer</h1>
+          <p>
+            我是宋平浩（Kouji Song），前端工程師，專精 React.js/Next.js
+            開發。擁有廣告數據分析背景，具備購物車、會員系統與 API 串接經驗。
+          </p>
+          <nav aria-label='主要導航'>
+            <ul>
+              <li>
+                <a href='#home'>首頁</a>
+              </li>
+              <li>
+                <a href='#about'>關於我</a>
+              </li>
+              <li>
+                <a href='#projects'>專案作品</a>
+              </li>
+              <li>
+                <a href='#contact'>聯絡我</a>
+              </li>
+            </ul>
+          </nav>
         </div>
-      </section>
+
+        <Home />
+        <About />
+        <Projects />
+        <Contact />
+      </main>
     </>
   );
 }

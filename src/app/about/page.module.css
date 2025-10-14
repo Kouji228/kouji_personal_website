@@ -1,3 +1,108 @@
+/* 技能區塊樣式 */
+.space-y-8 > * + * {
+  margin-top: 2rem;
+}
+
+@media (max-width: 991.98px) {
+  .space-y-8 > * + * {
+    margin-top: 1.5rem;
+  }
+}
+
+/* 技能卡片基本樣式 */
+.skillCard {
+  background-color: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  height: 40px;
+  transition: all 0.3s ease;
+}
+
+.skillCard:hover {
+  transform: scale(1.05);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+}
+
+/* 學習中技能的特殊樣式 */
+.skillStudying {
+  background-color: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  height: 40px;
+  opacity: 0.7;
+  transition: all 0.3s ease;
+}
+
+.skillStudying:hover {
+  transform: scale(1.05);
+}
+
+/* 確保 SVG 圖標正確顯示 */
+.skillCard svg {
+  width: 40px !important;
+  height: 40px !important;
+  min-width: 40px !important;
+  min-height: 40px !important;
+  flex-shrink: 0;
+}
+
+/* Grid 佈局樣式 */
+.skillsContainer {
+  display: grid;
+  gap: 2rem;
+}
+
+.skillsContainer > div {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  gap: 1rem;
+  align-items: start;
+}
+
+/* 確保響應式設計 */
+@media (max-width: 767px) {
+  .skillsContainer > div {
+    grid-template-columns: 1fr;
+  }
+
+  .skillsContainer > div > h3 {
+    grid-column: 1;
+    margin-bottom: 1rem;
+  }
+
+  .skillsContainer > div > div:last-child {
+    grid-column: 1;
+  }
+}
+
+/* 學習中技能的特殊樣式 */
+.skill-studying {
+  position: relative;
+}
+
+.skill-studying::after {
+  content: '學習中';
+  position: absolute;
+  top: -8px;
+  right: -8px;
+  background: var(--secondary-color);
+  color: white;
+  font-size: 0.6rem;
+  padding: 2px 6px;
+  border-radius: 10px;
+  font-weight: bold;
+}
+
+/* 響應式技能卡片樣式 */
+@media (max-width: 768px) {
+  .skillCard {
+    width: 120px !important;
+    height: 40px !important;
+  }
+
+  .skillCard span {
+    font-size: 18px !important;
+  }
+}
+
 /* 返回首頁按钮样式 - 复制自首页按钮设计 */
 .backBtn {
   padding: 4px 19px;
@@ -76,4 +181,9 @@
   top: 0;
   left: 0;
   transform: translate3d(0px, 90px, 0px);
+}
+
+/* 自定義 section padding */
+.sectionWithExtraPadding {
+  padding-bottom: var(--padding-section) !important;
 }

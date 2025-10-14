@@ -24,7 +24,7 @@
   padding: 12px 0;
   text-decoration: none;
   color: var(--text-color);
-  font-family: 'Marcellus', serif;
+  font-family: var(--font-accent);
   font-size: 14px;
   font-weight: 500;
   letter-spacing: 1px;

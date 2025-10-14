@@ -7,12 +7,16 @@ interface ProjectCardProps {
   img: string;
   description: string;
   link: string;
+  year?: number;
+  onImageLoad?: () => void;
 }
 
 const ProjectCard: React.FC<ProjectCardProps> = ({
   img,
   description,
   link,
+  year,
+  onImageLoad,
 }) => {
   const cardRef = useRef<HTMLDivElement>(null);
   const imageRef = useRef<HTMLDivElement>(null);
@@ -121,10 +125,37 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
             backgroundPosition: 'center',
           }}
         />
+        {/* 隱藏的圖片元素用於監聽載入事件 */}
+        <img
+          src={img}
+          alt=''
+          style={{ display: 'none' }}
+          onLoad={() => {
+            onImageLoad?.();
+          }}
+          onError={() => {
+            // 即使載入失敗也要觸發回調
+            onImageLoad?.();
+          }}
+        />
       </div>
 
       {/* 專案內容 */}
+
       <div ref={contentRef} className='p-6'>
+        {year && (
+          <div className='mb-3'>
+            <span
+              className='inline-block px-3 py-1 rounded-full text-xs font-semibold'
+              style={{
+                backgroundColor: 'var(--secondary-color)',
+                color: 'var(--text-color-2)',
+              }}
+            >
+              {year}
+            </span>
+          </div>
+        )}
         <p
           className='text-sm md:text-base leading-relaxed mb-4'
           style={{ color: 'var(--text-color)' }}
@@ -145,7 +176,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
               color: 'var(--text-color-2)',
             }}
           >
-            查看專案 →
+            查看專案
           </a>
         ) : (
           <span

@@ -29,7 +29,7 @@
   margin: 0;
   border: unset;
   font-size: 1.25rem;
-  font-family: Marcellus;
+  font-family: var(--font-accent);
   color: var(--text-color-2);
   line-height: 2;
   height: 50px;
