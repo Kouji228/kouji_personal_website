@@ -1,0 +1,169 @@
+.gallery {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 15px;
+  padding: 10px;
+  width: 100%;
+  max-width: 600px;
+  margin: 0 auto;
+  transition: background-color 0.5s ease;
+  box-sizing: border-box;
+}
+
+.item {
+  cursor: pointer;
+  font-size: 0;
+  overflow: hidden;
+  border-radius: 8px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  position: relative;
+  aspect-ratio: 1 / 1;
+  width: 100%;
+  min-height: 0;
+  background: var(--primary-color);
+}
+
+.item:hover {
+  transform: scale(1.05);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+}
+
+.item img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  display: block;
+}
+
+.detail {
+  position: fixed;
+  top: 10px;
+  left: 50%;
+  width: 90vmin;
+  max-width: 600px;
+  cursor: pointer;
+  font-size: 0;
+  display: flex;
+  flex-direction: column;
+  visibility: hidden;
+  overflow: auto;
+  z-index: 1000;
+  border-radius: 12px;
+  box-shadow: 0 15px 50px rgba(0, 0, 0, 0.5);
+}
+
+.detail > img {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  height: auto;
+  border-radius: 12px 12px 0 0;
+}
+
+.detail .content {
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  color: var(--text-color);
+  padding: 2rem 1.5rem;
+  font-size: 1rem;
+  box-sizing: border-box;
+  flex-grow: 1;
+  border-radius: 0 0 12px 12px;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+[data-theme='dark'] .detail .content {
+  background: rgba(26, 26, 26, 0.5);
+}
+
+[data-theme='light'] .detail .content,
+:root .detail .content {
+  background: rgba(44, 62, 80, 0.5);
+}
+
+.detail .content > * {
+  margin-bottom: 1rem;
+}
+
+.detail .title {
+  font-size: 2rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: var(--text-color);
+  transition: color 0.3s ease;
+}
+
+.detail .secondary {
+  color: var(--text-color-3);
+  font-size: 1.1rem;
+  font-weight: 500;
+  transition: color 0.3s ease;
+}
+
+.detail .description {
+  line-height: 1.6;
+  color: var(--text-color-2);
+  font-size: 1rem;
+  transition: color 0.3s ease;
+}
+
+/* 響應式設計 */
+@media (max-width: 991.98px) {
+  .gallery {
+    max-width: 500px;
+  }
+}
+
+@media (max-width: 768px) {
+  .gallery {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+    padding: 8px;
+    max-width: 100%;
+  }
+
+  .item {
+    aspect-ratio: 1 / 1;
+  }
+
+  .detail {
+    width: 95vw;
+    max-width: none;
+    top: 50%;
+  }
+
+  .detail .title {
+    font-size: 1.5rem;
+  }
+
+  .detail .secondary {
+    font-size: 1rem;
+  }
+
+  .detail .content {
+    padding: 1.5rem 1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .gallery {
+    gap: 8px;
+    padding: 5px;
+  }
+
+  .detail .title {
+    font-size: 1.3rem;
+  }
+
+  .detail .secondary {
+    font-size: 0.95rem;
+  }
+
+  .detail .description {
+    font-size: 0.9rem;
+  }
+}

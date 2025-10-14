@@ -5,7 +5,9 @@ import Link from 'next/link';
 import { VscGrabber, VscClose } from 'react-icons/vsc';
 import { logotext, socialprofils } from '../../content_option';
 import Themetoggle from '../../components/themetoggle';
+import TabNavigation from '../../components/tabnavigation';
 import styles from './index.module.css';
+import { FaGithub, FaLinkedin } from 'react-icons/fa';
 
 const Headermain: FC = () => {
   const [isActive, setActive] = useState(false);
@@ -21,12 +23,14 @@ const Headermain: FC = () => {
   return (
     <>
       <header className={`fixed-top ${styles.siteHeader}`}>
-        <div className='d-flex align-items-center justify-content-between'>
+        <div
+          className={`d-flex align-items-center justify-content-between ${styles.headerInner}`}
+        >
           <Link href='/' className={`navbar-brand ${styles.navAc}`}>
             {logotext}
           </Link>
 
-          <div className='d-flex align-items-center'>
+          <div className={`d-flex align-items-center ${styles.headerActions}`}>
             <Themetoggle />
 
             <button
@@ -70,15 +74,6 @@ const Headermain: FC = () => {
                   </li>
                   <li className={styles.menuItem}>
                     <Link
-                      href='/resume'
-                      className='my-3'
-                      onClick={handleToggle}
-                    >
-                      resume
-                    </Link>
-                  </li>
-                  <li className={styles.menuItem}>
-                    <Link
                       href='/contact'
                       className='my-3'
                       onClick={handleToggle}
@@ -95,19 +90,20 @@ const Headermain: FC = () => {
             className={`${styles.menuFooter} d-flex flex-column flex-md-row justify-content-between align-items-md-center position-absolute w-100 p-3`}
           >
             <div className='d-flex'>
-              <a href={socialprofils.facebook}>Facebook</a>
-              <a href={socialprofils.github}>Github</a>
-              <a href={socialprofils.twitter}>Twitter</a>
+              <a href={socialprofils.github}>
+                <FaGithub />
+              </a>
+              <a href={socialprofils.linkedin}>
+                <FaLinkedin />
+              </a>
             </div>
             <p className='m-0'>copyright __ {logotext}</p>
           </div>
         </div>
       </header>
 
-      <div className='br-top'></div>
-      <div className='br-bottom'></div>
-      <div className='br-left'></div>
-      <div className='br-right'></div>
+      {/* 標籤導航 */}
+      <TabNavigation />
     </>
   );
 };

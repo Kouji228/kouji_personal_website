@@ -2,6 +2,18 @@
   top: 10px;
   padding-left: 10px;
   padding-right: 10px;
+  width: 100%;
+  max-width: 100vw;
+  box-sizing: border-box;
+}
+
+.headerInner {
+  max-width: 100%;
+  overflow: hidden;
+}
+
+.headerActions {
+  flex-shrink: 0;
 }
 
 .menuButton {
@@ -27,7 +39,6 @@
   padding: 5px 15px;
   margin: 0;
   border: unset;
-  background: var(--primary-color);
   font-size: 1.25rem;
   font-family: Marcellus;
   color: var(--text-color-2);
@@ -35,48 +46,29 @@
   height: 50px;
   font-weight: bold;
   z-index: 1000;
+  white-space: nowrap;
 }
 
 .navAc:hover {
   color: var(--text-color-2);
 }
 
-/* brTop, brBottom, brRight, brLeft */
-.brTop,
-.brBottom,
-.brRight,
-.brLeft {
-  position: fixed;
-  z-index: 999999;
-  background: var(--primary-color);
-}
+/* RWD 調整 */
+@media (max-width: 576px) {
+  .siteHeader {
+    padding-left: 5px;
+    padding-right: 5px;
+  }
 
-.brTop {
-  top: 0;
-  height: 10px;
-  left: 0;
-  width: 100%;
-}
+  .navAc {
+    padding: 5px 10px;
+    font-size: 1.1rem;
+  }
 
-.brBottom {
-  bottom: 0;
-  left: 0;
-  height: 10px;
-  width: 100%;
-}
-
-.brRight {
-  width: 10px;
-  right: 0;
-  top: 0;
-  height: 100%;
-}
-
-.brLeft {
-  width: 10px;
-  left: 0;
-  top: 0;
-  height: 100%;
+  .menuButton svg {
+    width: 1.75em;
+    height: 1.75em;
+  }
 }
 
 /* cortinaWrapperMenu 取代 cortina__wrapper-menu */
@@ -222,8 +214,7 @@
 .menuFooter {
   bottom: 0;
   font-family: Marcellus;
-  font-size: 14px;
-  background: var(--primary-color);
+  font-size: 24px;
 }
 
 .menuFooter a {

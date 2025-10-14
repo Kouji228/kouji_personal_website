@@ -28,7 +28,6 @@
   padding: 5px 15px;
   margin: 0;
   border: unset;
-  background: var(--primary-color);
   font-size: 1.25rem;
   font-family: Marcellus;
   color: var(--text-color-2);
@@ -48,7 +47,7 @@
 .brLeft {
   position: fixed;
   z-index: 999999;
-  background: var(--primary-color);
+  background: var(--secondary-color);
 }
 .brTop {
   top: 0;
@@ -143,7 +142,7 @@
   top: 0;
   width: 100%;
   height: 100%;
-  background-color: var(--primary-color);
+  background-color: var(--secondary-color);
   will-change: transform;
   transform: translateY(-100%);
   transition: 0.5s ease all;
