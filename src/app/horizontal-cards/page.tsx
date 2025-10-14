@@ -1,10 +1,12 @@
 'use client';
 
 import React from 'react';
-import HorizontalSnapCards from '../../components/HorizontalSnapCards';
+import HorizontalSnapCards, {
+  type CardData,
+} from '../../components/HorizontalSnapCards';
 
 const HorizontalCardsPage: React.FC = () => {
-  const handleCardClick = (card: any) => {
+  const handleCardClick = (card: CardData) => {
     console.log('點擊了卡片:', card);
     alert(`您點擊了: ${card.title}`);
   };

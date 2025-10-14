@@ -5,7 +5,7 @@ import { gsap } from './gsap';
 import { useHorizontalScrollTrigger } from '../hooks/useScrollTriggerRefresh';
 import styles from './HorizontalSnapCards.module.css';
 
-interface CardData {
+export interface CardData {
   id: string;
   title: string;
   description: string;
@@ -193,7 +193,7 @@ const HorizontalSnapCards: React.FC<HorizontalSnapCardsProps> = ({
 
       <div ref={containerRef} className={styles.scrollContainer}>
         <div ref={scrollRef} className={styles.scrollContent}>
-          {cards.map((card, index) => (
+          {cards.map((card) => (
             <div
               key={card.id}
               className={styles.card}
