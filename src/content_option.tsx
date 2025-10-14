@@ -178,7 +178,7 @@ const dataportfolio = [
     year: 2025,
   },
   {
-    img: 'picture/personal_website.JPG',
+    img: 'picture/personal_website.jpg',
     description: '個人網站 - Next.js 15 + TypeScript + Tailwind CSS',
     link: 'https://github.com/Kouji228/kouji_personal_website',
     year: 2025,
