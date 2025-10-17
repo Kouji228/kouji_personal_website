@@ -2,10 +2,10 @@ import { test, expect } from '@playwright/test';
 
 test.describe('單頁式網站導航功能', () => {
   test.beforeEach(async ({ page }) => {
-    // 每個測試前都先訪問首頁
     await page.goto('/');
-    // 等待頁面完全載入
     await page.waitForLoadState('networkidle');
+    // 等待載入畫面完成
+    await page.waitForTimeout(3000);
   });
 
   test('進入首頁時導覽高亮 HOME', async ({ page }) => {
@@ -32,7 +32,7 @@ test.describe('單頁式網站導航功能', () => {
     await aboutLink.click();
 
     // 等待滾動動畫完成
-    await page.waitForTimeout(1500);
+    await page.waitForTimeout(2000);
 
     // 檢查 URL 變為 /#about
     await expect(page).toHaveURL(/#about$/);
@@ -41,10 +41,10 @@ test.describe('單頁式網站導航功能', () => {
     const aboutSection = page.getByTestId('about-section');
     await expect(aboutSection).toBeVisible();
 
-    // 檢查 about section 在視窗頂部附近（考慮導航高度）
+    // 檢查 about section 在視窗頂部附近
     const aboutSectionBox = await aboutSection.boundingBox();
     expect(aboutSectionBox).toBeTruthy();
-    expect(aboutSectionBox!.y).toBeLessThan(200); // 考慮固定導航高度
+    expect(aboutSectionBox!.y).toBeLessThan(200);
 
     // 檢查 ABOUT 連結為高亮狀態
     await expect(aboutLink).toHaveClass(/active/);
@@ -54,7 +54,7 @@ test.describe('單頁式網站導航功能', () => {
     // 先導航到 about section
     const aboutLink = page.getByTestId('nav-link-about');
     await aboutLink.click();
-    await page.waitForTimeout(1500);
+    await page.waitForTimeout(2000);
 
     // 檢查 URL 為 /#about
     await expect(page).toHaveURL(/#about$/);
@@ -62,6 +62,7 @@ test.describe('單頁式網站導航功能', () => {
     // 重新整理頁面
     await page.reload();
     await page.waitForLoadState('networkidle');
+    await page.waitForTimeout(3000);
 
     // 檢查 URL 仍為 /#about
     await expect(page).toHaveURL(/#about$/);
@@ -107,7 +108,7 @@ test.describe('單頁式網站導航功能', () => {
 
     // 點擊 PROJECTS 按鈕
     await projectsMobileLink.click();
-    await page.waitForTimeout(1500);
+    await page.waitForTimeout(2000);
 
     // 檢查 URL 變為 /#projects
     await expect(page).toHaveURL(/#projects$/);
@@ -136,7 +137,7 @@ test.describe('單頁式網站導航功能', () => {
       // 點擊導航連結
       const link = page.getByTestId(section.testId);
       await link.click();
-      await page.waitForTimeout(1500);
+      await page.waitForTimeout(2000);
 
       // 檢查 URL 變化
       await expect(page).toHaveURL(new RegExp(`#${section.id}$`));
@@ -165,7 +166,7 @@ test.describe('單頁式網站導航功能', () => {
       // 點擊底部導航按鈕
       const link = page.getByTestId(section.testId);
       await link.click();
-      await page.waitForTimeout(1500);
+      await page.waitForTimeout(2000);
 
       // 檢查 URL 變化
       await expect(page).toHaveURL(new RegExp(`#${section.id}$`));
@@ -183,7 +184,7 @@ test.describe('單頁式網站導航功能', () => {
     // 直接訪問 /#about
     await page.goto('/#about');
     await page.waitForLoadState('networkidle');
-    await page.waitForTimeout(1000); // 等待滾動動畫
+    await page.waitForTimeout(3000);
 
     // 檢查 URL 為 /#about
     await expect(page).toHaveURL(/#about$/);

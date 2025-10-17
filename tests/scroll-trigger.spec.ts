@@ -4,6 +4,7 @@ test.describe('ScrollTrigger 功能測試', () => {
   test.beforeEach(async ({ page }) => {
     await page.goto('/');
     await page.waitForLoadState('networkidle');
+    await page.waitForTimeout(3000);
   });
 
   test('頁面載入時 ScrollTrigger 正確初始化', async ({ page }) => {
@@ -144,7 +145,7 @@ test.describe('ScrollTrigger 功能測試', () => {
     // 直接訪問 /#projects
     await page.goto('/#projects');
     await page.waitForLoadState('networkidle');
-    await page.waitForTimeout(1500);
+    await page.waitForTimeout(3000);
 
     // 檢查 URL 為 /#projects
     await expect(page).toHaveURL(/#projects$/);
@@ -166,7 +167,7 @@ test.describe('ScrollTrigger 功能測試', () => {
     // 訪問水平滾動卡片頁面
     await page.goto('/horizontal-cards');
     await page.waitForLoadState('networkidle');
-    await page.waitForTimeout(1000);
+    await page.waitForTimeout(3000);
 
     // 檢查水平滾動容器存在
     const horizontalContainer = page.locator(
@@ -181,7 +182,7 @@ test.describe('ScrollTrigger 功能測試', () => {
     // 測試載入更多按鈕
     const loadMoreButton = page.getByRole('button', { name: '載入更多' });
     await loadMoreButton.click();
-    await page.waitForTimeout(1500);
+    await page.waitForTimeout(2000);
 
     // 檢查新卡片已載入
     const cardCount = await cards.count();
@@ -190,7 +191,7 @@ test.describe('ScrollTrigger 功能測試', () => {
     // 測試重新排列按鈕
     const shuffleButton = page.getByRole('button', { name: '重新排列' });
     await shuffleButton.click();
-    await page.waitForTimeout(1000);
+    await page.waitForTimeout(1500);
 
     // 檢查卡片數量不變
     const newCardCount = await cards.count();

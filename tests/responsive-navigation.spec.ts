@@ -4,18 +4,16 @@ test.describe('響應式導航測試', () => {
   test.beforeEach(async ({ page }) => {
     await page.goto('/');
     await page.waitForLoadState('networkidle');
+    await page.waitForTimeout(3000);
   });
 
-  test('桌面版 (>= 992px) 顯示桌面導航，隱藏底部導航', async ({ page }) => {
+  test('桌面版 (>= 1200px) 顯示桌面導航，隱藏底部導航', async ({ page }) => {
     // 設定為桌面視窗大小
     await page.setViewportSize({ width: 1200, height: 800 });
 
     // 檢查桌面導航顯示
     const desktopNav = page.getByTestId('desktop-nav');
     await expect(desktopNav).toBeVisible();
-
-    const desktopNavMenu = page.getByTestId('desktop-nav-menu');
-    await expect(desktopNavMenu).toBeVisible();
 
     // 檢查底部導航隱藏
     const mobileBottomNav = page.getByTestId('mobile-bottom-nav');
@@ -29,7 +27,7 @@ test.describe('響應式導航測試', () => {
     }
   });
 
-  test('平板版 (768px - 991px) 顯示桌面導航，隱藏底部導航', async ({
+  test('平板版 (768px - 1199px) 顯示桌面導航，隱藏底部導航', async ({
     page,
   }) => {
     // 設定為平板視窗大小
@@ -50,10 +48,7 @@ test.describe('響應式導航測試', () => {
 
     // 檢查桌面導航隱藏
     const desktopNav = page.getByTestId('desktop-nav');
-    await expect(desktopNav).toBeVisible(); // 導航容器仍存在，但選單隱藏
-
-    const desktopNavMenu = page.getByTestId('desktop-nav-menu');
-    await expect(desktopNavMenu).toBeHidden();
+    await expect(desktopNav).toBeHidden();
 
     // 檢查底部導航顯示
     const mobileBottomNav = page.getByTestId('mobile-bottom-nav');
@@ -72,8 +67,8 @@ test.describe('響應式導航測試', () => {
     await page.setViewportSize({ width: 1200, height: 800 });
 
     // 檢查桌面導航顯示
-    const desktopNavMenu = page.getByTestId('desktop-nav-menu');
-    await expect(desktopNavMenu).toBeVisible();
+    const desktopNav = page.getByTestId('desktop-nav');
+    await expect(desktopNav).toBeVisible();
 
     const mobileBottomNav = page.getByTestId('mobile-bottom-nav');
     await expect(mobileBottomNav).toBeHidden();
@@ -81,8 +76,8 @@ test.describe('響應式導航測試', () => {
     // 縮小為手機版
     await page.setViewportSize({ width: 375, height: 667 });
 
-    // 檢查桌面導航選單隱藏
-    await expect(desktopNavMenu).toBeHidden();
+    // 檢查桌面導航隱藏
+    await expect(desktopNav).toBeHidden();
 
     // 檢查底部導航顯示
     await expect(mobileBottomNav).toBeVisible();
@@ -90,8 +85,8 @@ test.describe('響應式導航測試', () => {
     // 放大回桌面版
     await page.setViewportSize({ width: 1200, height: 800 });
 
-    // 檢查桌面導航選單顯示
-    await expect(desktopNavMenu).toBeVisible();
+    // 檢查桌面導航顯示
+    await expect(desktopNav).toBeVisible();
 
     // 檢查底部導航隱藏
     await expect(mobileBottomNav).toBeHidden();
@@ -121,7 +116,7 @@ test.describe('響應式導航測試', () => {
       // 點擊底部導航按鈕
       const mobileLink = page.getByTestId(`mobile-nav-${testCase.id}`);
       await mobileLink.click();
-      await page.waitForTimeout(1500);
+      await page.waitForTimeout(2000);
 
       // 檢查 URL 變化
       await expect(page).toHaveURL(testCase.expectedUrl);
@@ -151,18 +146,18 @@ test.describe('響應式導航測試', () => {
     // 測試滾動到 about section
     const aboutMobileLink = page.getByTestId('mobile-nav-about');
     await aboutMobileLink.click();
-    await page.waitForTimeout(1500);
+    await page.waitForTimeout(2000);
 
     // 檢查 about section 在視窗頂部附近
     const aboutSection = page.getByTestId('about-section');
     const aboutSectionBox = await aboutSection.boundingBox();
     expect(aboutSectionBox).toBeTruthy();
-    expect(aboutSectionBox!.y).toBeLessThan(300); // 考慮手機版導航高度
+    expect(aboutSectionBox!.y).toBeLessThan(300);
 
     // 測試滾動到 projects section
     const projectsMobileLink = page.getByTestId('mobile-nav-projects');
     await projectsMobileLink.click();
-    await page.waitForTimeout(1500);
+    await page.waitForTimeout(2000);
 
     // 檢查 projects section 在視窗頂部附近
     const projectsSection = page.getByTestId('projects-section');
@@ -178,7 +173,7 @@ test.describe('響應式導航測試', () => {
     // 導航到 projects section
     const projectsMobileLink = page.getByTestId('mobile-nav-projects');
     await projectsMobileLink.click();
-    await page.waitForTimeout(1500);
+    await page.waitForTimeout(2000);
 
     // 檢查 URL 為 /#projects
     await expect(page).toHaveURL(/#projects$/);
@@ -186,7 +181,7 @@ test.describe('響應式導航測試', () => {
     // 重新整理頁面
     await page.reload();
     await page.waitForLoadState('networkidle');
-    await page.waitForTimeout(1000);
+    await page.waitForTimeout(3000);
 
     // 檢查 URL 仍為 /#projects
     await expect(page).toHaveURL(/#projects$/);
