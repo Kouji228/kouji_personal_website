@@ -1069,6 +1069,201 @@ Playwright 是微軟開發的端到端測試框架，支援多種瀏覽器：
 - **並行執行**：支援並行測試執行
 - **TypeScript 支援**：原生 TypeScript 支援
 
+### 📚 Playwright 基礎語法解釋
+
+#### 核心概念理解
+
+**1. Test vs Test.describe**
+
+```typescript
+// test.describe：測試群組，用於組織相關的測試案例
+test.describe('導航功能測試', () => {
+  // test：單個測試案例，測試特定的功能點
+  test('點擊導航連結應該跳轉到對應頁面', async ({ page }) => {
+    // 測試邏輯
+  });
+});
+```
+
+**2. Page Object 模式**
+
+```typescript
+// page 是 Playwright 的核心對象，代表瀏覽器頁面
+test('測試案例', async ({ page }) => {
+  // page 提供的方法：
+  await page.goto('/'); // 導航到指定 URL
+  await page.click('button'); // 點擊元素
+  await page.fill('input', 'text'); // 填寫表單
+  await page.screenshot(); // 截圖
+});
+```
+
+**3. Locator 元素定位**
+
+```typescript
+// Locator 是元素定位器，用於找到頁面上的元素
+const element = page.getByTestId('button-id'); // 通過 data-testid 定位
+const element2 = page.locator('.css-class'); // 通過 CSS 選擇器定位
+const element3 = page.getByRole('button'); // 通過角色定位
+
+// Locator 是懶加載的，只有當被使用時才會真正查找元素
+await element.click(); // 這時才會在頁面上查找元素
+```
+
+**4. Expect 斷言系統**
+
+```typescript
+// expect 用於驗證測試結果是否符合預期
+await expect(element).toBeVisible(); // 元素可見
+await expect(element).toBeHidden(); // 元素隱藏
+await expect(element).toHaveText('文字'); // 元素包含特定文字
+await expect(element).toHaveClass('class'); // 元素有特定 CSS 類
+await expect(page).toHaveURL('/about'); // 頁面 URL 符合預期
+```
+
+#### 常用 API 詳細說明
+
+**1. 頁面導航**
+
+```typescript
+// 基本導航
+await page.goto('https://example.com'); // 導航到指定 URL
+await page.goto('/relative-path'); // 相對路徑導航
+await page.goto('/#section'); // 帶 hash 的 URL
+
+// 等待頁面載入完成
+await page.waitForLoadState('networkidle'); // 等待網路活動停止
+await page.waitForLoadState('domcontentloaded'); // 等待 DOM 載入完成
+await page.waitForLoadState('load'); // 等待所有資源載入完成
+```
+
+**2. 元素查找方法**
+
+```typescript
+// 通過 data-testid 屬性（推薦方式）
+const element = page.getByTestId('unique-id');
+
+// 通過文字內容
+const button = page.getByRole('button', { name: '提交' });
+const heading = page.getByRole('heading', { name: '標題' });
+
+// 通過 CSS 選擇器
+const card = page.locator('.card');
+const input = page.locator('input[type="email"]');
+
+// 通過 XPath
+const title = page.locator('//h1[contains(@class, "title")]');
+
+// 組合查找
+const submitBtn = page.locator('form').getByRole('button', { name: '提交' });
+```
+
+**3. 元素互動操作**
+
+```typescript
+// 點擊操作
+await element.click(); // 左鍵點擊
+await element.click({ button: 'right' }); // 右鍵點擊
+await element.dblclick(); // 雙擊
+
+// 文字輸入
+await input.fill('文字內容'); // 清空並填入文字
+await input.type('逐字輸入'); // 逐字輸入（模擬真實打字）
+await input.press('Enter'); // 按下特定按鍵
+
+// 拖拽操作
+await element.dragTo(targetElement); // 拖拽到目標元素
+await element.dragTo(targetElement, {
+  // 拖拽到特定位置
+  targetPosition: { x: 100, y: 200 },
+});
+
+// 懸停操作
+await element.hover(); // 滑鼠懸停
+await element.hover({ position: { x: 10, y: 20 } }); // 懸停到特定位置
+```
+
+**4. 等待策略**
+
+```typescript
+// 智能等待（推薦）
+await expect(element).toBeVisible(); // 等待元素可見
+await expect(element).toBeHidden(); // 等待元素隱藏
+await expect(element).toHaveText('文字'); // 等待元素包含文字
+
+// 固定時間等待
+await page.waitForTimeout(2000); // 等待 2 秒
+
+// 條件等待
+await page.waitForFunction(() => {
+  return document.querySelector('.loading') === null;
+}); // 等待載入動畫消失
+
+// 等待 URL 變化
+await page.waitForURL('**/about'); // 等待 URL 包含 /about
+```
+
+**5. 斷言方法詳解**
+
+```typescript
+// 可見性斷言
+await expect(element).toBeVisible(); // 元素可見
+await expect(element).toBeHidden(); // 元素隱藏
+await expect(element).toBeAttached(); // 元素存在於 DOM 中
+await expect(element).toBeDetached(); // 元素不存在於 DOM 中
+
+// 文字內容斷言
+await expect(element).toHaveText('精確文字'); // 完全匹配
+await expect(element).toContainText('包含文字'); // 包含文字
+await expect(element).toHaveValue('input 的值'); // input 元素的值
+
+// 屬性斷言
+await expect(element).toHaveAttribute('href', '/about'); // 屬性值
+await expect(element).toHaveClass('active'); // CSS 類
+await expect(element).toHaveCSS('color', 'rgb(255, 0, 0)'); // CSS 樣式
+
+// 頁面狀態斷言
+await expect(page).toHaveURL('/about'); // URL 匹配
+await expect(page).toHaveTitle('頁面標題'); // 頁面標題
+await expect(page).toHaveScreenshot('screenshot.png'); // 截圖比較
+```
+
+**6. 視窗和視口操作**
+
+```typescript
+// 視口大小設定
+await page.setViewportSize({ width: 1280, height: 720 });
+
+// 滾動操作
+await page.evaluate(() => {
+  window.scrollTo(0, 1000); // 滾動到指定位置
+});
+
+await page.evaluate(() => {
+  document.getElementById('section').scrollIntoView(); // 滾動到元素
+});
+
+// 鍵盤操作
+await page.keyboard.press('Enter'); // 按下 Enter 鍵
+await page.keyboard.type('Hello World'); // 輸入文字
+await page.keyboard.down('Shift'); // 按住 Shift 鍵
+await page.keyboard.up('Shift'); // 釋放 Shift 鍵
+```
+
+**7. 截圖和調試**
+
+```typescript
+// 截圖功能
+await page.screenshot({ path: 'screenshot.png' }); // 全頁截圖
+await element.screenshot({ path: 'element.png' }); // 元素截圖
+await page.screenshot({ path: 'full.png', fullPage: true }); // 完整頁面截圖
+
+// 調試功能
+await page.pause(); // 暫停測試，進入調試模式
+console.log(await element.textContent()); // 輸出元素文字內容
+console.log(await page.url()); // 輸出當前 URL
+```
+
 ### 🧪 Playwright 測試實作
 
 #### 測試檔案結構
@@ -1077,7 +1272,147 @@ Playwright 是微軟開發的端到端測試框架，支援多種瀏覽器：
 tests/
 ├── navigation.spec.ts           # 主要導航功能測試
 ├── responsive-navigation.spec.ts # 響應式導航測試
-└── scroll-trigger.spec.ts      # ScrollTrigger 功能測試
+├── scroll-trigger.spec.ts      # ScrollTrigger 功能測試
+├── loading-screen.spec.ts      # 載入畫面測試
+├── puzzle-game.spec.ts         # 拼圖遊戲測試
+├── animations.spec.ts          # 動畫效果測試
+├── projects-display.spec.ts    # 專案展示測試
+└── integration.spec.ts         # 整合測試
+```
+
+#### Playwright 測試基礎做法
+
+**1. 基本測試結構**
+
+```typescript
+import { test, expect } from '@playwright/test';
+
+test.describe('功能測試群組', () => {
+  test.beforeEach(async ({ page }) => {
+    // 每個測試前的準備工作
+    await page.goto('/');
+    await page.waitForLoadState('networkidle');
+    await page.waitForTimeout(3000); // 等待載入畫面完成
+  });
+
+  test('測試案例描述', async ({ page }) => {
+    // 測試步驟
+    const element = page.getByTestId('element-id');
+    await expect(element).toBeVisible();
+  });
+});
+```
+
+**2. 元素選擇策略**
+
+```typescript
+// 使用 data-testid 屬性（推薦）
+const element = page.getByTestId('nav-link-home');
+
+// 使用文字內容
+const button = page.getByRole('button', { name: '載入更多' });
+
+// 使用 CSS 選擇器
+const cards = page.locator('.project-card');
+
+// 使用 XPath
+const title = page.locator('//h1[contains(text(), "標題")]');
+```
+
+**3. 等待策略**
+
+```typescript
+// 等待網路活動停止
+await page.waitForLoadState('networkidle');
+
+// 等待元素可見
+await expect(element).toBeVisible();
+
+// 等待特定時間
+await page.waitForTimeout(2000);
+
+// 等待 URL 變化
+await expect(page).toHaveURL(/#about$/);
+```
+
+**4. 斷言 (Assertions)**
+
+```typescript
+// 可見性檢查
+await expect(element).toBeVisible();
+await expect(element).toBeHidden();
+
+// 文字內容檢查
+await expect(element).toContainText('預期文字');
+
+// CSS 類別檢查
+await expect(element).toHaveClass(/active/);
+
+// URL 檢查
+await expect(page).toHaveURL(/#about$/);
+
+// 元素數量檢查
+const count = await elements.count();
+expect(count).toBeGreaterThan(0);
+```
+
+**5. 互動操作**
+
+```typescript
+// 點擊
+await element.click();
+
+// 輸入文字
+await input.fill('文字內容');
+
+// 拖拽
+await element.dragTo(targetElement, {
+  targetPosition: { x: 50, y: 50 },
+});
+
+// 懸停
+await element.hover();
+
+// 滾動
+await page.evaluate(() => {
+  document.getElementById('section').scrollIntoView();
+});
+```
+
+**6. 響應式測試**
+
+```typescript
+// 設定視窗大小
+await page.setViewportSize({ width: 375, height: 667 });
+
+// 測試不同裝置
+test('手機版測試', async ({ page }) => {
+  await page.setViewportSize({ width: 375, height: 667 });
+  // 測試邏輯
+});
+```
+
+**7. 測試配置**
+
+```typescript
+// playwright.config.ts
+export default defineConfig({
+  testDir: './tests',
+  fullyParallel: true,
+  forbidOnly: !!process.env.CI,
+  retries: process.env.CI ? 2 : 0,
+  workers: process.env.CI ? 1 : undefined,
+  reporter: 'html',
+  use: {
+    baseURL: 'http://localhost:3000',
+    trace: 'on-first-retry',
+  },
+  projects: [
+    { name: 'chromium', use: { ...devices['Desktop Chrome'] } },
+    { name: 'firefox', use: { ...devices['Desktop Firefox'] } },
+    { name: 'webkit', use: { ...devices['Desktop Safari'] } },
+  ],
+});
 ```
 
 #### 導航功能測試
@@ -1169,14 +1504,92 @@ test.describe('ScrollTrigger 功能', () => {
 # 運行所有測試
 npm run test
 
-# 使用 UI 模式運行測試
+# 使用 UI 模式運行測試（視覺化界面）
 npm run test:ui
 
-# 調試模式
+# 調試模式（逐步執行）
 npm run test:debug
 
 # 特定瀏覽器測試
 npx playwright test --project=chromium
+npx playwright test --project=firefox
+npx playwright test --project=webkit
+
+# 運行特定測試檔案
+npx playwright test navigation.spec.ts
+
+# 運行特定測試案例
+npx playwright test -g "導航功能"
+
+# 生成測試報告
+npx playwright show-report
+
+# 清理測試結果
+rm -rf test-results/ playwright-report/
+
+# 安裝瀏覽器
+npx playwright install
+
+# 檢查測試配置
+npx playwright test --list
+```
+
+### 📊 測試最佳實踐
+
+**1. 測試命名規範**
+
+```typescript
+// ✅ 好的測試命名
+test('點擊 ABOUT 導覽 → URL 變為 /#about，且 about 內容可見', async ({
+  page,
+}) => {
+  // 測試邏輯
+});
+
+// ❌ 不好的測試命名
+test('test1', async ({ page }) => {
+  // 測試邏輯
+});
+```
+
+**2. 測試資料隔離**
+
+```typescript
+test.describe('功能測試群組', () => {
+  test.beforeEach(async ({ page }) => {
+    // 每個測試前重置狀態
+    await page.goto('/');
+    await page.waitForLoadState('networkidle');
+    await page.waitForTimeout(3000);
+  });
+});
+```
+
+**3. 等待策略選擇**
+
+```typescript
+// ✅ 優先使用智能等待
+await expect(element).toBeVisible();
+
+// ✅ 必要時使用固定等待
+await page.waitForTimeout(2000);
+
+// ❌ 避免過度使用固定等待
+await page.waitForTimeout(10000); // 太長
+```
+
+**4. 錯誤處理**
+
+```typescript
+test('測試案例', async ({ page }) => {
+  try {
+    await page.goto('/');
+    await expect(page.getByTestId('element')).toBeVisible();
+  } catch (error) {
+    console.error('測試失敗:', error);
+    throw error;
+  }
+});
 ```
 
 ---
